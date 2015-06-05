@@ -1,0 +1,59 @@
+$groups$matter: true
+
+Integral:
+  $groups$delegate: false
+  $groups$delegate$into: false
+  $groups$matter: false
+  $groups$matter$into: false
+
+  $style:
+  - document class: book
+    options: [10pt, a4paper]
+  - ..[no-document-class]
+
+  $matter[-add-toc]:
+  - .[add-toc]
+
+  $matter[-integral,add-toc]:
+
+  - preamble package: hyperref
+  - preamble verbatim: >-
+      \hypersetup{colorlinks}
+    provide: hypersetup:colorlinks
+  - verbatim: \tableofcontents
+
+  - verbatim: \mainmatter
+  - .[integral]
+
+  $matter[integral,g8r2]:
+  - verbatim: \chapter{Пчёлы (8-2)}
+  - /
+
+  $matter[integral,g8r1]:
+  - verbatim: \chapter{Шмели (8-1)}
+  - /
+
+  $matter[integral,g9r3]:
+  - verbatim: \chapter{Сверчки (9-3)}
+  - /
+
+  $matter[integral,g9r2]:
+  - verbatim: \chapter{Кузнечики (9-2)}
+  - /
+
+  $matter[integral,g9r1]:
+  - verbatim: \chapter{Саранча (9-1)}
+  - /
+
+  $matter[integral]:
+  - verbatim: \chapter{8-2}
+  - /[g8r2]
+  - verbatim: \chapter{8-1}
+  - /[g8r1]
+  - verbatim: \chapter{9-3}
+  - /[g9r3]
+  - verbatim: \chapter{9-2}
+  - /[g9r2]
+  - verbatim: \chapter{9-1}
+  - /[g9r1]
+
