@@ -8,6 +8,6 @@ announcement:
   $style[-announcement]:
   - .[announcement]
   $matter:
-  - - ../Брагин/announcement
-  - - ../Нилов/announcement
-  - - ../Трещёв/announcement
+  - - ../Бахарев/announcement
+  - - ../Гусев/announcement
+  - - ../Кушнир/announcement

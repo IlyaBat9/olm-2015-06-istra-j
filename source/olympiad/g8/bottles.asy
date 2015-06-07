@@ -3,16 +3,22 @@ size(size);
 
 import geometry;
 
-real space = 0.1;
+real space = 0.05;
 
 void draw_bottle(pair p, int n = 40) {
-    transform scale = scale(1-0.5space);
+    real r_outer = 1 - 0.5space;
+    real r_inner = 0.8r_outer;
     transform shift = shift(p);
-    draw(shift * scale * unitcircle);
-    for (int i = 0; i < n; ++i) {
-        pair dir = dir(i*360/n);
-        draw(shift * scale * (dir--0.8dir));
-    }
+    path circle = shift * scale(r_outer) * unitcircle;
+    radialshade( circle,
+        pena=gray(0.95), a=p, ra=0.0,
+        penb=gray(0.80), b=p, rb=r_inner, extendb=false
+    );
+    radialshade( circle,
+        pena=gray(0.85), a=p, ra=r_inner, extenda=false,
+        penb=white, b=p, rb=r_outer
+    );
+    draw(circle);
 }
 
 void draw_bottle(real x, real y) {
@@ -46,4 +52,9 @@ real
     top = H.y + 1, bottom = A.y - 1 - 0.5space;
 
 draw((left,top)--(left,bottom)--(right,bottom)--(right,top));
+
+draw(
+    (left-0.2,top+0.2)--(left-0.2,bottom-0.2)--
+    (right+0.2,bottom-0.2)--(right+0.2,top+0.2),
+invisible);
 

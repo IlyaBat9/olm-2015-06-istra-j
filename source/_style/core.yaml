@@ -44,26 +44,28 @@ font-config:
       options: [log-declarations=false]
     - package: fontspec
       options: [no-math]
+    - verbatim:
+        \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
     - delegate: setfont
     setfont:
       $style[compiler-xelatex]:
       - verbatim: |-
-          \setmainfont[Ligatures=TeX]{Linux Libertine}
-          \newfontfamily{\cyrillicfont}[Ligatures=TeX]{Linux Libertine}
+          \setmainfont{Linux Libertine}
+            \newfontfamily{\cyrillicfont}{Linux Libertine}
         provide: setmainfont
         condition: {not: print}
       - verbatim: |-
-          \setmainfont[Ligatures=TeX]{Times New Roman}
-          \newfontfamily{\cyrillicfont}[Ligatures=TeX]{Times New Roman}
+          \setmainfont{Times New Roman}
+            \newfontfamily{\cyrillicfont}{Times New Roman}
         provide: setmainfont
         condition: print
       - verbatim: |-
-          \setsansfont[Ligatures=TeX]{DejaVu Sans Condensed}
-          \newfontfamily{\cyrillicfontsf}[Ligatures=TeX]{DejaVu Sans Condensed}
+          \setsansfont{DejaVu Sans Condensed}
+            \newfontfamily{\cyrillicfontsf}{DejaVu Sans Condensed}
         provide: setsansfont
       - verbatim: |-
-          \setmonofont[Ligatures=TeX]{Liberation Mono}
-          \newfontfamily{\cyrillicfonttt}[Ligatures=TeX]{Liberation Mono}
+          \setmonofont{Liberation Mono}
+            \newfontfamily{\cyrillicfonttt}{Liberation Mono}
         provide: setmonofont
       $style[compiler-lualatex]:
       - verbatim: |-
@@ -131,9 +133,9 @@ optional:
   - delegate: ./shrink-formulas
     condition: shrink-formulas
   $style[print,-tiled4]:
-  - delegate: .[a5paper,-print]
+  - delegate: .[-print]
     condition: {or: [resize-to, 2-on-1, 4-on-1]}
-  - delegate: .[a5paper,2-on-1,-print]
+  - delegate: .[2-on-1,-print]
     condition: {not: {or: [resize-to, 2-on-1, 4-on-1]}}
   $style[print,tiled4]:
   - .[-print]
