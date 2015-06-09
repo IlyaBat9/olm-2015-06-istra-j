@@ -10,16 +10,16 @@ $style:
   condition: {or: [compiler-latex, compiler-pdflatex]}
 - delegate: font-config
   condition: {not: no-font-config}
-- delegate: language-config
-  condition: {not: no-language-config}
-- verbatim: '\pagestyle{empty}'
-  provide: pagestyle
-  condition: {not: no-pagestyle}
 
 - delegate: jeolm
 
 - delegate: math-font-config
   condition: {not: no-font-config}
+- delegate: language-config
+  condition: {not: no-language-config}
+- verbatim: '\pagestyle{empty}'
+  provide: pagestyle
+  condition: {not: no-pagestyle}
 
 - delegate: optional
 
@@ -48,37 +48,19 @@ font-config:
         \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
     - delegate: setfont
     setfont:
-      $style[compiler-xelatex]:
-      - verbatim: |-
-          \setmainfont{Linux Libertine}
-            \newfontfamily{\cyrillicfont}{Linux Libertine}
-        provide: setmainfont
-        condition: {not: print}
-      - verbatim: |-
-          \setmainfont{Times New Roman}
-            \newfontfamily{\cyrillicfont}{Times New Roman}
-        provide: setmainfont
-        condition: print
-      - verbatim: |-
-          \setsansfont{DejaVu Sans Condensed}
-            \newfontfamily{\cyrillicfontsf}{DejaVu Sans Condensed}
-        provide: setsansfont
-      - verbatim: |-
-          \setmonofont{Liberation Mono}
-            \newfontfamily{\cyrillicfonttt}{Liberation Mono}
-        provide: setmonofont
-      $style[compiler-lualatex]:
-      - verbatim: |-
-          \setmainfont{CMU Serif}
-        provide: setmainfont
-      - verbatim: |-
-          \setsansfont{CMU Sans Serif}
-        provide: setsansfont
-      - verbatim: |-
-          \setmonofont{CMU Typewriter Text}
-        provide: setmonofont
       $style:
-      - error: fontspec package be may be used only with XeLaTeX of LuaLaTeX
+      - verbatim: |-
+          \setmainfont{Tinos}
+            \newfontfamily{\cyrillicfont}{Tinos}
+        provide: setmainfont
+      - verbatim: |-
+          \setsansfont{Arimo}
+            \newfontfamily{\cyrillicfontsf}{Arimo}
+        provide: setsansfont
+      - verbatim: |-
+          \setmonofont{Cousine}
+            \newfontfamily{\cyrillicfonttt}{Cousine}
+        provide: setmonofont
 
 math-font-config:
   $style[compiler-latex]: []
@@ -88,14 +70,21 @@ math-font-config:
   # amsmath (and thus jeolm) must go before this
   $style[compiler-xelatex]:
   - package: mathspec
-  - verbatim:
-      \setmathsfont(Digits){Linux Libertine}
+  - verbatim: |-
+      \setmathsfont(Digits)[Arabic=Regular]{Tinos}
+      \setmathsfont(Latin)[Lowercase=Italic,Uppercase=Italic]{Tinos}
+        \setmathrm{Tinos}
+        \setmathsf{Arimo}
+        \setmathtt{Cousine}
+      \setmathsfont(Greek)[Lowercase=Italic,Uppercase=Regular]{Tinos}
+      % this patch must go before loading polyglossia
+      \makeatletter
+      \begingroup\lccode`~=`"
+      \lowercase{\endgroup
+        \everymath{\let~\eu@active@quote}%
+        \everydisplay{\let~\eu@active@quote}%
+      }
     provide: setmathsfont
-    condition: {not: print}
-  - verbatim:
-      \setmathsfont(Digits){Times New Roman}
-    provide: setmathsfont
-    condition: print
 
 language-config:
   $style[compiler-latex]:

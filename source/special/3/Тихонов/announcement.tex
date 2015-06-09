@@ -1,0 +1,32 @@
+% $date: 10--13 июня 2015
+% $timetable:
+%   g9s: {}
+
+\section*{Набор математических текстов в системе \LaTeX}
+
+% $authors:
+% - Юлий Васильевич Тихонов
+
+% $style[-announcement]:
+% - .[announcement]
+
+% $matter[-matter-guard,no-header]:
+% - .[matter-guard]
+% - text
+
+% $build$style:
+% - .[a4paper,landscape]
+
+% $build$matter:
+% - .[matter-guard,header]
+% - preamble package: multicol
+% - verbatim: \begin{multicols}{2}
+% - text[no-header]
+% - verbatim: \vfill\columnbreak
+% - preamble package: verbatim
+% - verbatim: \begingroup\let\input\verbatiminput
+% - verbatim: \fontsize{8.05}{9.66}\selectfont
+% - text[no-header]
+% - verbatim: \endgroup
+% - verbatim: \end{multicols}
+
