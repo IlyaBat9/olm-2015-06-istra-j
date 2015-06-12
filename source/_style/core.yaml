@@ -46,45 +46,73 @@ font-config:
       options: [no-math]
     - verbatim:
         \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
-    - delegate: setfont
+    - delegate: setfont/cm-unicode
     setfont:
-      $style:
-      - verbatim: |-
-          \setmainfont{Tinos}
-            \newfontfamily{\cyrillicfont}{Tinos}
-        provide: setmainfont
-      - verbatim: |-
-          \setsansfont{Arimo}
-            \newfontfamily{\cyrillicfontsf}{Arimo}
-        provide: setsansfont
-      - verbatim: |-
-          \setmonofont{Cousine}
-            \newfontfamily{\cyrillicfonttt}{Cousine}
-        provide: setmonofont
+      cm-unicode:
+        $style:
+        - verbatim: |-
+            \setmainfont[
+              Path = /usr/share/texmf-dist/fonts/opentype/public/cm-unicode/,
+              Extension=.otf,
+              BoldFont=cmunbx, ItalicFont=cmunti, BoldItalicFont=cmunbi,
+              SlantedFont=cmunsl,
+              SmallCapsFont=cmunrm, SmallCapsFeatures={Letters=SmallCaps},
+            ]{cmunrm}
+            \let\cyrillicfont\normalfont
+          provide: setmainfont
+        - verbatim: |-
+            \setsansfont[
+              Path = /usr/share/texmf-dist/fonts/opentype/public/cm-unicode/,
+              Extension=.otf,
+              BoldFont=cmunsx, ItalicFont=cmunsi, BoldItalicFont=cmunso,
+            ]{cmunss}
+            \let\cyrillicfontsf\sffamily
+          provide: setsansfont
+        - verbatim: |-
+            \setmonofont[
+              Path = /usr/share/texmf-dist/fonts/opentype/public/cm-unicode/,
+              Extension=.otf,
+              BoldFont=cmuntb, ItalicFont=cmunit, BoldItalicFont=cmuntx,
+              SlantedFont=cmunst,
+            ]{cmuntt}
+            \let\cyrillicfonttt\ttfamily
+          provide: setmonofont
 
 math-font-config:
   $style[compiler-latex]: []
   $style[compiler-pdflatex]: []
   $style[compiler-lualatex]: []
+  $style[compiler-xelatex]: []
 
-  # amsmath (and thus jeolm) must go before this
-  $style[compiler-xelatex]:
-  - package: mathspec
-  - verbatim: |-
-      \setmathsfont(Digits)[Arabic=Regular]{Tinos}
-      \setmathsfont(Latin)[Lowercase=Italic,Uppercase=Italic]{Tinos}
-        \setmathrm{Tinos}
-        \setmathsf{Arimo}
-        \setmathtt{Cousine}
-      \setmathsfont(Greek)[Lowercase=Italic,Uppercase=Regular]{Tinos}
-      % this patch must go before loading polyglossia
-      \makeatletter
-      \begingroup\lccode`~=`"
-      \lowercase{\endgroup
-        \everymath{\let~\eu@active@quote}%
-        \everydisplay{\let~\eu@active@quote}%
-      }
-    provide: setmathsfont
+#  # amsmath (and thus jeolm) must go before this
+#  mathspec:
+#    $style:
+#    - package: mathspec
+#    - verbatim: |-
+#        \setmathsfont(Digits)[Arabic=Regular]{Tinos}
+#        \setmathsfont(Latin)[Lowercase=Italic,Uppercase=Italic]{Tinos}
+#          \setmathrm{Tinos}
+#          \setmathsf{Arimo}
+#          \setmathtt{Cousine}
+#        \setmathsfont(Greek)[Lowercase=Italic,Uppercase=Regular]{Tinos}
+#        \exchangeforms{kappa}
+#        % this patch must go before loading polyglossia
+#        \makeatletter
+#        \begingroup\lccode`~=`"
+#        \lowercase{\endgroup
+#          \everymath{\let~\eu@active@quote}%
+#          \everydisplay{\let~\eu@active@quote}%
+#        }
+#      provide: setmathsfont
+
+  unicode-math:
+    $style:
+    - package: unicode-math
+      options:
+      - vargreek-shape=unicode
+    - verbatim: |-
+        \setmathfont{latinmodern-math.otf}
+      provide: setmathfont
 
 language-config:
   $style[compiler-latex]:

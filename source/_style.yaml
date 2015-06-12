@@ -1,4 +1,4 @@
-$build$compiler$default: xelatex
+$build$compiler$default: pdflatex
 $style:
 - delegate: /_style
 - delegate: /_style/local
