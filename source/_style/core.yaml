@@ -2,26 +2,31 @@ $target$able: off
 
 $style:
 
-- document class: article
-  options: [a4paper,10pt]
-  condition: {not: no-document-class}
-- package: inputenc
-  options: [utf8]
-  condition: {or: [compiler-latex, compiler-pdflatex]}
-- delegate: font-config
-  condition: {not: no-font-config}
+  - document class: article
+    options: [a4paper,10pt]
+    condition: {not: no-document-class}
+  - package: inputenc
+    options: [utf8]
+    condition: {or: [compiler-latex, compiler-pdflatex]}
+  - package: amsmath
+  - package: amssymb
+  - delegate: font-config
+    condition: {not: no-font-config}
+  - delegate: math-font-config
+    condition: {not: no-font-config}
 
-- delegate: jeolm
+  - delegate: jeolm
 
-- delegate: math-font-config
-  condition: {not: no-font-config}
-- delegate: language-config
-  condition: {not: no-language-config}
-- verbatim: '\pagestyle{empty}'
-  provide: pagestyle
-  condition: {not: no-pagestyle}
+  - delegate: math-symbols-config
+    condition: {not: no-font-config}
 
-- delegate: optional
+  - delegate: language-config
+    condition: {not: no-language-config}
+  - verbatim: '\pagestyle{empty}'
+    provide: pagestyle
+    condition: {not: no-pagestyle}
+
+  - delegate: optional
 
 font-config:
   $style[compiler-latex]:
@@ -46,83 +51,168 @@ font-config:
       options: [no-math]
     - verbatim:
         \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
-    - delegate: setfont/cm-unicode
+    - delegate: setfont
     setfont:
-      cm-unicode:
+      $style:
+      - delegate: cm-unicode
+      $style[xits]:
+      - delegate: xits
+      xits:
         $style:
         - verbatim: |-
-            \setmainfont[
-              Path = /usr/share/texmf-dist/fonts/opentype/public/cm-unicode/,
-              Extension=.otf,
-              BoldFont=cmunbx, ItalicFont=cmunti, BoldItalicFont=cmunbi,
-              SlantedFont=cmunsl,
-              SmallCapsFont=cmunrm, SmallCapsFeatures={Letters=SmallCaps},
-            ]{cmunrm}
+            \setmainfont
+              [
+                Path = /usr/share/texmf-dist/fonts/opentype/public/xits/,
+                Extension=.otf,
+                UprightFont=*-regular,
+                BoldFont=*-bold,
+                ItalicFont=*-italic,
+                BoldItalicFont=*-bolditalic,
+              ]
+              {xits}
             \let\cyrillicfont\normalfont
           provide: setmainfont
+        - delegate: ../liberation/sans
+        - delegate: ../liberation/mono
+      cm-unicode:
+        $style:
+        - delegate: main
+        - delegate: sans
+        - delegate: mono
+        main:
+          $style:
+          - verbatim: |-
+              \setmainfont[
+                Path = /usr/share/texmf-dist/fonts/opentype/public/cm-unicode/,
+                Extension=.otf,
+                BoldFont=cmunbx, ItalicFont=cmunti, BoldItalicFont=cmunbi,
+                SlantedFont=cmunsl,
+                SmallCapsFont=cmunrm, SmallCapsFeatures={Letters=SmallCaps},
+              ]{cmunrm}
+              \let\cyrillicfont\normalfont
+            provide: setmainfont
+        sans:
+          $style:
+          - verbatim: |-
+              \setsansfont[
+                Path = /usr/share/texmf-dist/fonts/opentype/public/cm-unicode/,
+                Extension=.otf,
+                BoldFont=cmunsx, ItalicFont=cmunsi, BoldItalicFont=cmunso,
+              ]{cmunss}
+              \let\cyrillicfontsf\sffamily
+            provide: setsansfont
+        mono:
+          $style:
+          - verbatim: |-
+              \setmonofont[
+                Path = /usr/share/texmf-dist/fonts/opentype/public/cm-unicode/,
+                Extension=.otf,
+                BoldFont=cmuntb, ItalicFont=cmunit, BoldItalicFont=cmuntx,
+                SlantedFont=cmunst,
+              ]{cmuntt}
+              \let\cyrillicfonttt\ttfamily
+            provide: setmonofont
+      liberation:
+        $style:
+        - delegate: main
+        - delegate: sans
+        - delegate: mono
+        main:
+          $style:
+          - verbatim: |-
+              \setmainfont{Liberation Serif}
+              \let\cyrillicfont\normalfont
+            provide: setmainfont
+        sans:
+          $style:
+          - verbatim: |-
+              \setsansfont{Liberation Sans}
+              \let\cyrillicfontsf\sffamily
+            provide: setsansfont
+        mono:
+          $style:
+          - verbatim: |-
+              \setmonofont{Liberation Mono}
+              \let\cyrillicfonttt\ttfamily
+            provide: setmonofont
+      tinos:
+        $style:
         - verbatim: |-
-            \setsansfont[
-              Path = /usr/share/texmf-dist/fonts/opentype/public/cm-unicode/,
-              Extension=.otf,
-              BoldFont=cmunsx, ItalicFont=cmunsi, BoldItalicFont=cmunso,
-            ]{cmunss}
+            \setmainfont{Tinos}
+            \let\cyrillicfont\normalfont
+          provide: setmainfont
+      arimo:
+        $style:
+        - verbatim: |-
+            \setsansfont{Arimo}
             \let\cyrillicfontsf\sffamily
           provide: setsansfont
+      cousine:
+        $style:
         - verbatim: |-
-            \setmonofont[
-              Path = /usr/share/texmf-dist/fonts/opentype/public/cm-unicode/,
-              Extension=.otf,
-              BoldFont=cmuntb, ItalicFont=cmunit, BoldItalicFont=cmuntx,
-              SlantedFont=cmunst,
-            ]{cmuntt}
+            \setmonofont{Cousine}
             \let\cyrillicfonttt\ttfamily
           provide: setmonofont
 
 math-font-config:
-  $style[compiler-latex]: []
-  $style[compiler-pdflatex]: []
-  $style[compiler-lualatex]: []
-  $style[compiler-xelatex]: []
-
-#  # amsmath (and thus jeolm) must go before this
-#  mathspec:
-#    $style:
-#    - package: mathspec
-#    - verbatim: |-
-#        \setmathsfont(Digits)[Arabic=Regular]{Tinos}
-#        \setmathsfont(Latin)[Lowercase=Italic,Uppercase=Italic]{Tinos}
-#          \setmathrm{Tinos}
-#          \setmathsf{Arimo}
-#          \setmathtt{Cousine}
-#        \setmathsfont(Greek)[Lowercase=Italic,Uppercase=Regular]{Tinos}
-#        \exchangeforms{kappa}
-#        % this patch must go before loading polyglossia
-#        \makeatletter
-#        \begingroup\lccode`~=`"
-#        \lowercase{\endgroup
-#          \everymath{\let~\eu@active@quote}%
-#          \everydisplay{\let~\eu@active@quote}%
-#        }
-#      provide: setmathsfont
+  $style[compiler-latex]:
+    []
+  $style[compiler-pdflatex]:
+    []
+  $style[compiler-lualatex]:
+    []
+  $style[compiler-xelatex]:
+  - delegate: unicode-math
 
   unicode-math:
     $style:
-    - package: unicode-math
-      options:
-      - vargreek-shape=unicode
-    - verbatim: |-
-        \setmathfont{latinmodern-math.otf}
-      provide: setmathfont
+    - delegate: latinmodern
+    $style[xits]:
+    - delegate: xits
+    _package:
+      $style:
+      - package: unicode-math
+        options:
+        - vargreek-shape=unicode
+    latinmodern:
+      $style:
+      - delegate: ../_package
+      - verbatim: |-
+          \setmathfont{latinmodern-math.otf}
+        provide: setmathfont
+    xits:
+      $style:
+      - delegate: ../_package
+      - verbatim: |-
+          \setmathfont
+            [Path=/usr/share/texmf-dist/fonts/opentype/public/xits/]
+            {xits-math.otf}
+        provide: setmathfont
+
+math-symbols-config:
+  $style[compiler-latex]:
+  - delegate: swap-cm-vargreek
+  $style[compiler-pdflatex]:
+  - delegate: swap-cm-vargreek
+  $style[compiler-xelatex]:
+    []
+  $style[compiler-lualatex]:
+    []
+
+  swap-cm-vargreek:
+    $style:
+    - verbatim:
+        \swapvargreek{phi} \swapvargreek{epsilon} \swapvargreek{kappa}
 
 language-config:
   $style[compiler-latex]:
-  - babel
+  - delegate: babel
   $style[compiler-pdflatex]:
-  - babel
+  - delegate: babel
   $style[compiler-xelatex]:
-  - polyglossia
+  - delegate: polyglossia
   $style[compiler-lualatex]:
-  - polyglossia
+  - delegate: polyglossia
 
   babel:
     $style:
@@ -141,23 +231,60 @@ jeolm:
 
 optional:
   $style:
-  - delegate: ./geometry
-    condition: {not: no-geometry}
-  - package: parskip
-    condition: {not: no-parskip}
-  - delegate: ./pgfpages
-    condition: {not: no-pgfpages}
-  - delegate: ./shrink-formulas
-    condition: shrink-formulas
-  $style[print,-tiled4]:
-  - delegate: .[-print]
+
+    - delegate: geometry
+      condition: {not: no-package-geometry}
+
+    - package: parskip
+      condition: {not: no-package-parskip}
+    - package: multicol
+      condition: {not: no-package-multicol}
+    - package: graphicx
+      condition: {not: no-package-graphicx}
+    - package: anyfontsize
+      condition: {not: no-package-anyfontsize}
+
+    - delegate: pgfpages
+      condition: {not: no-package-pgfpages}
+    - delegate: hyperref
+      condition: {not: no-package-hyperref}
+    - delegate: shrink-formulas
+      condition: shrink-formulas
+
+  $style[-print,-paper-guard]:
+  - delegate: .[a5paper,paper-guard]
+    condition: {not: {or: [a3paper, a4paper, a5paper, a6paper]}}
+  - delegate: .[paper-guard]
+    condition: {or: [a3paper, a4paper, a5paper, a6paper]}
+
+  $style[print,tiled4,-paper-guard,-layout-guard]:
+  - delegate: .[a6paper,landscape,4-on-1,-tiled4]
+
+  $style[print,-paper-guard,-layout-guard]:
+  - delegate: .[a5paper,paper-guard]
+    condition: {not: {or: [a3paper, a4paper, a5paper, a6paper]}}
+  - delegate: .[paper-guard]
+    condition: {or: [a3paper, a4paper, a5paper, a6paper]}
+
+  $style[print,paper-guard,-layout-guard]:
+  - delegate: .[2-on-1,layout-guard]
+    condition: {and: [
+      {not: {or: [resize-to, 2-on-1, 4-on-1]}},
+      a5paper,
+    ]}
+  - delegate: .[4-on-1,layout-guard]
+    condition: {and: [
+      {not: {or: [resize-to, 2-on-1, 4-on-1]}},
+      a6paper,
+    ]}
+  - delegate: .[layout-guard]
+    condition: {and: [
+      {not: {or: [resize-to, 2-on-1, 4-on-1]}},
+      {not: {or: [a5paper, a6paper]}},
+    ]}
+  - delegate: .[layout-guard]
     condition: {or: [resize-to, 2-on-1, 4-on-1]}
-  - delegate: .[2-on-1,-print]
-    condition: {not: {or: [resize-to, 2-on-1, 4-on-1]}}
-  $style[print,tiled4]:
-  - .[-print]
-  $style[tiled4,-print]:
-  - .[a6paper,landscape,4-on-1,-tiled4]
+
   geometry:
     $style:
     - package: geometry
@@ -167,23 +294,28 @@ optional:
     - verbatim: '\geometry{landscape}'
       provide: geometry:landscape
       condition: landscape
+    - verbatim: '%\geometry{landscape}'
+      provide: geometry:landscape
+      condition: {not: landscape}
     set-paper-size:
-      $style[a6paper]:
-      - verbatim: '\geometry{a6paper}'
-        provide: geometry:paper
-      $style[a5paper]:
-      - verbatim: '\geometry{a5paper}'
+      $style[a3paper]:
+      - verbatim: '\geometry{a3paper}'
         provide: geometry:paper
       $style[a4paper]:
       - verbatim: '\geometry{a4paper}'
         provide: geometry:paper
-      $style[a3paper]:
-      - verbatim: '\geometry{a3paper}'
+      $style[a5paper]:
+      - verbatim: '\geometry{a5paper}'
         provide: geometry:paper
-      $style: # default
-      - .[a5paper]
+      $style[a6paper]:
+      - verbatim: '\geometry{a6paper}'
+        provide: geometry:paper
+      $style:
+      - error: core misconfiguration
+
   pgfpages:
-    $style[-resize-to,-2-on-1,-4-on-1]: []
+    $style[-print]: # pgfpages is incompatible with hyperref
+    - no package: pgfpages
     $style:
     - package: pgfpages
     - verbatim: |-
@@ -210,7 +342,15 @@ optional:
       $style[4-on-1,landscape]:
       - verbatim: '\pgfpagesuselayout{4 on 1}[a4paper,landscape]'
         provide: pgfpagesuselayout
-      $style: [] # default
+      $style:
+      - error: core misconfiguration
+
+  hyperref:
+    $style[print]: # hyperref is incompatible with pgfpages
+    - no package: hyperref
+    $style:
+    - package: hyperref
+
   shrink-formulas:
     $style:
     - verbatim: |-

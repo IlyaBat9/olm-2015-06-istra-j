@@ -18,6 +18,7 @@ def main(listed_groups, *, driver,
             for date, periodlist in groupvalue['timetable'].items()
         ))
         for group, groupvalue in driver.groups.items()
+        if 'timetable' in groupvalue
     )
     root_record = driver[RecordPath()]
     for group, group_timetable in timetable.items():
@@ -38,8 +39,6 @@ def main(listed_groups, *, driver,
                     extra = "<YELLOW>{}<RESET>".format(extra)
                 group_timetable[date][period].append(extra)
     for metapath, metarecord, group, date, period in driver.list_timetable():
-        #if not metarecord.get('$list-timetable$able', True):
-        #    continue
         timetable[group][date][period].append(
             "<GREEN>{caption}<RESET> by <CYAN>{authors}<RESET> ({metapath})"
             .format(
@@ -49,7 +48,7 @@ def main(listed_groups, *, driver,
                 metapath=metapath,
             ) )
     if listed_groups is None:
-        listed_groups = list(driver.groups)
+        listed_groups = list(timetable)
     for group in listed_groups:
         fprint( "<MAGENTA>=== <BOLD>{}<RESET><MAGENTA> ===<RESET>"
             .format(group) )

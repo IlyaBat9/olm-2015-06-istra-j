@@ -1,13 +1,9 @@
 announcement:
-  $groups$delegate$into: false
-  $groups$delegate: false
-  $groups$matter$into: false
-  $groups$matter: false
   $build$style[print]:
   - .[resize-to]
   $style[-announcement]:
   - .[announcement]
   $matter:
-  - - ../Бахарев/announcement
-  - - ../Гусев/announcement
-  - - ../Кушнир/announcement
+  - - ../Bakharev/announcement
+  - - ../Gusev/announcement
+  - - ../Kushnir/announcement
