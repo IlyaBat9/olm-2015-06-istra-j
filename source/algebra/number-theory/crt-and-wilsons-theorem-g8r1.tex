@@ -9,6 +9,7 @@
 % $authors:
 % - Андрей Меньщиков
 
+\begingroup \def\eulerphi{\mathrm{\phi}}
 
 \claim{Упражнение 1}
 Найдите наименьшее натуральное число, дающее при делении на~$2$, $3$, $5$, $7$
@@ -28,13 +29,13 @@ $m = m_1 \cdot \ldots \cdot m_n$, и~$a_1, \ldots, a_n$~--- произвольн
 числа.
 Тогда существует единственное целое число $x$ такое, что $0 \leq x < m$ и
 \[
-\left\{\begin{aligned} &
+\left\{ \begin{aligned} &
     x \equiv a_1 \pmod{m_1}
 , \\ &
     x \equiv a_2 \pmod{m_2}
 , \\ & \ldots \\ &
     x \equiv a_n \pmod{m_n}
-. \end{aligned}\right.
+. \end{aligned} \right.
 \]
 
 \begin{problems}
@@ -63,17 +64,17 @@ $m_1 \cdot m_2 \cdot \ldots \cdot m_n$.
 Натуральные числа $m_1, \ldots, m_n$ попарно взаимно просты.
 Докажите, что число
 \(
-    x = (m_2 \cdot m_3 \cdot \ldots \cdot m_n)^{\phi(m_1)}
+    x = (m_2 \cdot m_3 \cdot \ldots \cdot m_n)^{\eulerphi(m_1)}
 \)
 является решением системы
 \[
-\left\{\begin{aligned} &
+\left\{ \begin{aligned} &
     x \equiv 1 \pmod{m_1}
 , \\ &
     x \equiv 0 \pmod{m_2}
 , \\ & \ldots \\ &
     x \equiv 0 \pmod{m_n}
-. \end{aligned}\right.
+. \end{aligned} \right.
 \]
 \subproblem
 Найдите в~явном виде число~$x$, удовлетворяющее КТО.
@@ -121,4 +122,6 @@ $p$-угольника?
 Докажите, что $(2 p - 1)! - p$ делится на~$p^2$.
 
 \end{problems}
+
+\endgroup % \def\eulerphi
 

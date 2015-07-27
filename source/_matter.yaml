@@ -9,17 +9,26 @@ Integral:
   $style:
   - document class: book
     options: [10pt, a4paper]
-  - ..[no-document-class]
+  - delegate: ..[no-document-class]
 
   $matter[-add-toc]:
   - .[add-toc]
 
   $matter[-integral,add-toc]:
 
+  - error:
+      "'source-link' and 'print' options are incompatible"
+    condition: [source-link, print]
+
   - preamble package: hyperref
-  - preamble verbatim: >-
-      \hypersetup{colorlinks}
+    condition: -print
+  - preamble verbatim: \hypersetup{colorlinks}
     provide: hypersetup:colorlinks
+    condition: [source-link, -print]
+
+  # XXX
+  #- verbatim: \frontmatter
+  #- - delegate: /integral[-add-toc]
   - verbatim: \tableofcontents
 
   - verbatim: \mainmatter
@@ -36,24 +45,4 @@ Integral:
   - /[g9r2]
   - verbatim: \chapter{Саранча (9-1)}
   - /[g9r1]
-
-  $matter[integral,g8r2]:
-  - verbatim: \chapter{Пчёлы (8-2)}
-  - /
-
-  $matter[integral,g8r1]:
-  - verbatim: \chapter{Шмели (8-1)}
-  - /
-
-  $matter[integral,g9r3]:
-  - verbatim: \chapter{Сверчки (9-3)}
-  - /
-
-  $matter[integral,g9r2]:
-  - verbatim: \chapter{Кузнечики (9-2)}
-  - /
-
-  $matter[integral,g9r1]:
-  - verbatim: \chapter{Саранча (9-1)}
-  - /
 

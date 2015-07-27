@@ -11,6 +11,8 @@
 % $authors:
 % - Владимир Брагин
 
+\begingroup \def\eulerphi{\mathrm{\phi}}
+
 \claim{Малая теорема Ферма}
 Если $p$~--- простое число, а~$a$ не~делится на~$p$, то~$(a^{p-1} - 1)$ делится на~$p$.
 \par
@@ -78,18 +80,19 @@ $(p - 1)$.
 
 \definition
 Пусть $n$~--- натуральное число.
-Обозначим $\phi(n)$ количество чисел, не~превосходящих $n$, взаимно простых
+Обозначим $\eulerphi(n)$ количество чисел, не~превосходящих $n$, взаимно простых
 с~$n$.
-Функция $\phi(n)$ называется \emph{функцией Эйлера}.
+Функция $\eulerphi(n)$ называется \emph{функцией Эйлера}.
 
 \theoremof{Эйлера}
 Пусть $n$~--- натуральное число, $a$~--- взаимно простое с~$n$.
-Тогда $(a^{\phi(n)} - 1)$ делится на~$n$.
+Тогда $(a^{\eulerphi(n)} - 1)$ делится на~$n$.
 
 \begin{problems}
 
 \item
-Найдите $\phi(p)$, где $p$ простое, $\phi(100)$, $\phi(2^l)$, $\phi(p^k)$.
+Найдите $\eulerphi(p)$, где $p$ простое, $\eulerphi(100)$, $\eulerphi(2^l)$,
+$\eulerphi(p^k)$.
 
 \item
 \subproblem
@@ -123,11 +126,11 @@ $(p - 1)$.
 \item
 \subproblem
 Пусть $p$ и~$q$~--- два различных простых числа.
-Докажите, что $\phi(pq) = (p - 1) \cdot (q - 1)$.
+Докажите, что $\eulerphi(pq) = (p - 1) \cdot (q - 1)$.
 \\
 \subproblem
 Докажите, что если $a$ и~$b$ взаимно просты,
-то~$\phi(a \cdot b) = \phi(a) \cdot \phi(b)$.
+то~$\eulerphi(a \cdot b) = \eulerphi(a) \cdot \eulerphi(b)$.
 \\
 \subproblem
 Пусть
@@ -137,7 +140,9 @@ $(p - 1)$.
     p_1^{\alpha_1} \cdot p_2^{\alpha_2} \cdot \ldots \cdot p_k^{\alpha_k}
 \)
 (предполагаем, что все $p_i$ различны).
-Чему равно $\phi(n) / n$?
+Чему равно $\eulerphi(n) / n$?
 
 \end{problems}
+
+\endgroup % \def\eulerphi
 
